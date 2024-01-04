@@ -116,7 +116,7 @@ Aqui está o script HTML utilizado para o teste de carga:
     </script>
 </body>
 </html>
-´´´
+```
 
 ## Banco de Dados
 
@@ -138,4 +138,4 @@ CREATE TABLE `mega` (
   `data` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-´´´
+```
