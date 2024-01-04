@@ -11,7 +11,6 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 $data = json_decode(file_get_contents("php://input"));
-var_dump($data );exit;
 $mega = new Mega(); 
 $mega->setNum1(intval($data->num1));
 $mega->setNum2(intval($data->num2));
