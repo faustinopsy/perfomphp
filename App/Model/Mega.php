@@ -10,6 +10,7 @@ class Mega{
     private int $num5;
     private int $num6;
 
+    public function __construct() {}
     public function getId(): int
     {
         return $this->id;
@@ -70,6 +71,7 @@ class Mega{
 
         return $this;
     }
+    
     public function getNum6(): int
     {
         return $this->num6;
