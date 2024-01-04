@@ -80,7 +80,7 @@ Aqui está o script HTML utilizado para o teste de carga:
     <button onclick="iniciarTesteDeCarga()">Iniciar Teste de Carga</button>
     <script>
         function gerarNumeroAleatorio() {
-            return Math.floor(Math.random() * 100);
+            return Math.floor(Math.random() * 60) + 1;
         }
 
         async function enviarRequisicao(contador) {
