@@ -48,8 +48,9 @@ Para reduzir a latência associada às operações de banco de dados, configuram
 ## Análise de Performance
 Regularmente avaliamos a performance da aplicação, utilizando tanto o profiling do Xdebug quanto benchmarks e ferramentas de monitoramento. Isso nos permite fazer ajustes proativos e manter o sistema rodando de forma suave e eficiente.
 
-<p align="center">
+<p align="center">Antes
   <img src="img/antes.png" alt="Antes das Otimizações" width="45%"/>
+  Depois
   <img src="img/depois.png" alt="Após as Otimizações" width="45%"/> 
 </p>
 
