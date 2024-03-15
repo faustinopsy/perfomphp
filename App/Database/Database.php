@@ -2,20 +2,37 @@
 namespace App\Database;
 use PDO;
 use PDOException;
+
 class Database {
-    private $host = 'localhost';
-    private $db_name = 'a01_teste';
-    private $username = 'root';
-    private $password = 'root123';
-    public $conn;
+    private $conn;
 
     public function getConnection() {
         $this->conn = null;
+        $config = require 'config.php';
+        $dbConfig = $config['database'];
+        $driver = $dbConfig['driver'];
+
         try {
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password, [
-                PDO::ATTR_PERSISTENT => true
-            ]);
-            $this->conn->exec("set names utf8");
+            switch ($driver) {
+                case 'mysql':
+                    $mysqlConfig = $dbConfig['mysql'];
+                    $dsn = "mysql:host={$mysqlConfig['host']};dbname={$mysqlConfig['db_name']};charset={$mysqlConfig['charset']}";
+                    $this->conn = new PDO($dsn, $mysqlConfig['username'], $mysqlConfig['password']);
+                    break;
+                case 'sqlite':
+                    $sqliteConfig = $dbConfig['sqlite'];
+                    $dsn = "sqlite:{$sqliteConfig['path']}";
+                    $this->conn = new PDO($dsn);
+                    break;
+                case 'sqlsrv':
+                    $sqlsrvConfig = $dbConfig['sqlsrv'];
+                    $dsn = "sqlsrv:Server={$sqlsrvConfig['host']};Database={$sqlsrvConfig['db_name']}";
+                    $this->conn = new PDO($dsn, $sqlsrvConfig['username'], $sqlsrvConfig['password']);
+                    break;
+                
+            }
+
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $exception) {
             echo "Erro de conexão: " . $exception->getMessage();
         }
