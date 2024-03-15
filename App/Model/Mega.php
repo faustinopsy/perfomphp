@@ -1,7 +1,5 @@
 <?php
 namespace App\Model;
-use PDO;
-use App\Database\Database;
 class Mega{
     private int $id;
     private int $num1;
@@ -10,10 +8,8 @@ class Mega{
     private int $num4;
     private int $num5;
     private int $num6;
-    private $conn;
     public function __construct() {
-        $database = new Database();
-        $this->conn = $database->getConnection();
+        
     }
     public function getId(): int
     {
@@ -86,44 +82,6 @@ class Mega{
 
         return $this;
     }
-    public function insertMega() {
-        $num1=$this->getNum1();
-        $num2=$this->getNum2();
-        $num3=$this->getNum3();
-        $num4=$this->getNum4();
-        $num5=$this->getNum5();
-        $num6=$this->getNum6();
-        $query = "INSERT INTO Mega (num1, num2, num3, num4, num5, num6) VALUES (:num1, :num2, :num3, :num4, :num5, :num6)";
 
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(":num1", $num1);
-        $stmt->bindParam(":num2", $num2);
-        $stmt->bindParam(":num3", $num3);
-        $stmt->bindParam(":num4", $num4);
-        $stmt->bindParam(":num5", $num5);
-        $stmt->bindParam(":num6", $num6);
-
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        return false;
-    }
-    public function getAll() {
-        $query = "SELECT * FROM Mega";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    public function getById(int $id) {
-        $query = "SELECT * FROM Mega WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        $stmt->execute();
-        
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
     
 }

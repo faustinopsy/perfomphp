@@ -2,6 +2,7 @@
 namespace App;
 require "../vendor/autoload.php";
 use App\Model\Mega;
+use App\Repository\MegaRepository;
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -25,14 +26,15 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         $mega = new Mega();
         
-        $mega->setNum1(intval($data->num1));
-        $mega->setNum2(intval($data->num2));
-        $mega->setNum3(intval($data->num3));
-        $mega->setNum4(intval($data->num4));
-        $mega->setNum5(intval($data->num5));
-        $mega->setNum6(intval($data->num6));
-
-        if ($mega->insertMega()) {
+        $mega->setNum1(intval($data->num1))
+        ->setNum2(intval($data->num2))
+        ->setNum3(intval($data->num3))
+        ->setNum4(intval($data->num4))
+        ->setNum5(intval($data->num5))
+        ->setNum6(intval($data->num6));
+        $repository = new MegaRepository();
+        $success = $repository->insertMega($mega);
+        if ($success) {
             http_response_code(200);
             echo json_encode(["message" => "Dados inseridos com sucesso."]);
         } else {
@@ -41,11 +43,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
     case 'GET':
-        $mega = new Mega();
+        $repository = new MegaRepository();
         if (isset($_GET['id'])) {
-            $result = $mega->getById(intval($_GET['id']));
+            $result = $repository->getById($mega);
         } else {
-            $result = $mega->getAll();
+            $result = $repository->getAll();
         }
 
         if ($result) {
