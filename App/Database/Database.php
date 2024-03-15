@@ -2,7 +2,9 @@
 namespace App\Database;
 use PDO;
 use PDOException;
+use MongoDB\Client as MongoClient;
 use Exception;
+
 class Database {
     private static $instance = null;
     private $conn;
@@ -30,11 +32,29 @@ class Database {
                     $dsn = "sqlsrv:Server={$sqlsrvConfig['host']};Database={$sqlsrvConfig['db_name']}";
                     $this->conn = new PDO($dsn, $sqlsrvConfig['username'], $sqlsrvConfig['password'], [PDO::ATTR_PERSISTENT => true]);
                     break;
+                case 'pgsql':
+                    $pgsqlConfig = $dbConfig['pgsql'];
+                    $dsn = "pgsql:host={$pgsqlConfig['host']};port={$pgsqlConfig['port']};dbname={$pgsqlConfig['db_name']};user={$pgsqlConfig['username']};password={$pgsqlConfig['password']}";
+                    $this->conn = new PDO($dsn);
+                    break;
+                // case 'mongodb':
+                //     $mongodbConfig = $dbConfig['mongodb'];
+                //     $dsn = "mongodb://{$mongodbConfig['host']}:{$mongodbConfig['port']}";
+                //     $this->conn = new MongoClient($dsn, [
+                //         'username' => $mongodbConfig['username'],
+                //         'password' => $mongodbConfig['password']
+                //     ]);
+                //     $this->conn = $this->conn->selectDatabase($mongodbConfig['db_name']);
+                //     break;
             }
 
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            if (in_array($driver, ['mysql', 'sqlite', 'sqlsrv', 'pgsql'])) {
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            }
         } catch(PDOException $exception) {
             echo "Erro de conexão: " . $exception->getMessage();
+        } catch(Exception $exception) {
+            echo "Erro de conexão (MongoDB): " . $exception->getMessage();
         }
     }
 
@@ -46,6 +66,4 @@ class Database {
     }
 
     private function __clone() {}
-
-    
 }
