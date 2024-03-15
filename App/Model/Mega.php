@@ -1,5 +1,6 @@
 <?php
 namespace App\Model;
+use PDO;
 use App\Database\Database;
 class Mega{
     private int $id;
@@ -109,4 +110,20 @@ class Mega{
 
         return false;
     }
+    public function getAll() {
+        $query = "SELECT * FROM Mega";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getById(int $id) {
+        $query = "SELECT * FROM Mega WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
 }
