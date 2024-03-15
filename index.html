@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste de Carga com Fetch</title>
+    <style>
+        #count { font-size: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div id="count">0</div>
+    <button onclick="iniciarTesteDeCarga()">Iniciar Teste de Carga</button>
+    <script>
+        function gerarNumeroAleatorio() {
+            return Math.floor(Math.random() * 60) + 1;
+        }
+
+        async function enviarRequisicao(contador) {
+            const url = "http://localhost:83/app/index.php";
+            const data = {
+                num1: gerarNumeroAleatorio(),
+                num2: gerarNumeroAleatorio(),
+                num3: gerarNumeroAleatorio(),
+                num4: gerarNumeroAleatorio(),
+                num5: gerarNumeroAleatorio(),
+                num6: gerarNumeroAleatorio()
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) throw new Error('Erro na requisição');
+                document.getElementById("count").innerText = "Requisições enviadas: " + contador;
+            } catch (error) {
+                console.error('Falha ao enviar requisição:', error);
+            }
+        }
+
+        function iniciarTesteDeCarga() {
+            for (let i = 1; i <= 10; i++) {
+                enviarRequisicao(i);
+            }
+        }
+    </script>
+</body>
+</html>

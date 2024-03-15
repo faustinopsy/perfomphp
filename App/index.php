@@ -2,7 +2,6 @@
 namespace App;
 require "../vendor/autoload.php";
 use App\Model\Mega;
-use App\Controller\MegaController;
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -31,8 +30,7 @@ if (
     $mega->setNum5(intval($data->num5));
     $mega->setNum6(intval($data->num6));
 
-    $megaController = new MegaController($mega);
-    if ($megaController->insertMega()) {
+    if ($mega->insertMega()) {
         echo json_encode(["message" => "Dados inseridos com sucesso."]);
     } else {
         echo json_encode(["message" => "Falha ao inserir dados."]);
