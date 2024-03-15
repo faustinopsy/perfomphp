@@ -8,8 +8,7 @@ class MegaRepository {
     private $conn;
 
     public function __construct() {
-        $database = new Database();
-        $this->conn = $database->getConnection();
+        $this->conn = Database::getInstance();
     }
 
     public function insertMega(Mega $mega) {
@@ -44,9 +43,10 @@ class MegaRepository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getById(Mega $mega) {
+        $id = $mega->getId();
         $query = "SELECT * FROM Mega WHERE id = :id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $mega->id, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id , PDO::PARAM_INT);
         $stmt->execute();
         
         return $stmt->fetch(PDO::FETCH_ASSOC);

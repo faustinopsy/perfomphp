@@ -2,7 +2,7 @@
 namespace App\Database;
 use PDO;
 use PDOException;
-
+use Exception;
 class Database {
     private static $instance = null;
     private $conn;
@@ -47,5 +47,5 @@ class Database {
 
     private function __clone() {}
 
-    private function __wakeup() {}
+    
 }

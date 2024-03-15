@@ -43,10 +43,21 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
     case 'GET':
+        $mega = new Mega();
         $repository = new MegaRepository();
         if (isset($_GET['id'])) {
-            $result = $repository->getById($mega);
-        } else {
+            $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+                if ($id === false) {
+                    http_response_code(400); 
+                    echo json_encode(['error' => 'O valor do ID fornecido não é um inteiro válido.']);
+                    exit;
+                } else {
+                    $mega = new Mega();
+                    $repository = new MegaRepository();
+                    $mega->setId($id);
+                    $result = $repository->getById($mega);
+                }
+            } else {
             $result = $repository->getAll();
         }
 
