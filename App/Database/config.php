@@ -1,7 +1,7 @@
 <?php
 return [
     'database' => [
-        'driver' => 'sqlite', // Opções: 'mysql', 'sqlite', 'sqlsrv'
+        'driver' => 'mysql', // Opções: 'mysql', 'sqlite', 'sqlsrv'
         'mysql' => [
             'host' => 'localhost',
             'db_name' => 'a01_teste',
